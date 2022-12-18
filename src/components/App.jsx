@@ -3,9 +3,9 @@ import { FeedbackOptions } from './feedbackOptions/feedbackOptions';
 import { Statistics } from './statistics/statistics';
 import { Section } from './section/section.jsx';
 import { Notification } from './notification/Notification';
+import style from "./App.module.css"
 
 export class App extends Component {
-
   state = {
     good: 0,
     neutral: 0,
@@ -30,7 +30,7 @@ export class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className={style.section}>
         <Section title="Please leave feedback">
           <FeedbackOptions
             options={Object.keys(this.state)}
@@ -38,21 +38,17 @@ export class App extends Component {
           ></FeedbackOptions>
         </Section>
         <Section title="Statistics">
-          {this.countTotalFeedback() && (
+          {this.countTotalFeedback() ? (
             <Statistics
               good={this.state.good}
               neutral={this.state.neutral}
               bad={this.state.bad}
               total={this.countTotalFeedback}
               positivePercentage={this.countPositiveFeedbackPercentage}
-            ></Statistics>
-          )}
-          {!this.countTotalFeedback() && (
-            <Notification message="There is no feedback"></Notification>
-          )}
+            ></Statistics>)
+            : (<Notification message="There is no feedback"></Notification>)}
         </Section>
       </div>
     );
   }
 }
-
